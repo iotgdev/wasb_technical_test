@@ -1,0 +1,25 @@
+version: '3'
+services:
+
+  wasb_api:
+    build:
+      context: ../../
+      dockerfile: ./deploy/docker/apiDockerfile
+    container_name: wasb_api
+    volumes:
+      - ../../backend/:/app/
+    ports:
+      - 8000:8000
+
+  wasb_ui:
+    build:
+      context: ../../
+      dockerfile: ./deploy/docker/uiDockerfile
+    container_name: wasb_ui
+    volumes:
+      - ../../frontend/ui/:/app/
+      - /app/node_modules/
+    ports:
+      - 3000:3000
+    depends_on:
+      - wasb_api

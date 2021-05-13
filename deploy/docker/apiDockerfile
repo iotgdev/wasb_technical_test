@@ -1,0 +1,23 @@
+FROM ubuntu:20.04
+RUN apt-get update --fix-missing -y
+RUN apt-get upgrade -y
+RUN apt-get install software-properties-common -y
+RUN add-apt-repository ppa:deadsnakes/ppa -y
+RUN apt-get update --fix-missing -y
+RUN apt-get install python3-pip python3.8 python3.8-dev libffi-dev libssl-dev locales libsm6 libxext6 libgl1-mesa-glx cmake -y
+RUN python3.8 -m pip install pip setuptools --upgrade
+
+RUN locale-gen en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LANG en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+
+COPY ./backend/ /app
+
+WORKDIR /app
+
+RUN pip install -e /app/
+
+RUN echo '#!/bin/sh\ncd /app/ && python3.8 api/manage.py "$@"' > /usr/local/bin/manage.py && chmod +x /usr/local/bin/manage.py
+
+CMD while true; do python3.8 /app/api/manage.py runserver 0.0.0.0:8000; sleep 1; done
