@@ -120,4 +120,4 @@ Task 10 - fin
 
 Great, the changes are finished. All we need to do now is some peer review. 
 
-**Create a pull request with your changes against the master branch.**
+**Create a pull request with your changes against the main branch.**
