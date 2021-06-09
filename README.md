@@ -15,7 +15,7 @@ Instructions will appear in bold.
 
 Task 1 - run the application
 ---
-Take a look at the project so far: **Clone the git repo onto your local machine. Familiarise yourself with the code. Create a new git branch (identified by your name) to work on locally.**
+Take a look at the project so far: **Fork the github repo. Clone your fork onto your local machine. Familiarise yourself with the code. Create a new git branch (identified by your name) to work on locally.**
 
 Once you've got the code downloaded, you'll need to run it. This application uses [docker](https://www.docker.com/get-started).
 **Download the "Docker Desktop" version appropriate for your system.**
