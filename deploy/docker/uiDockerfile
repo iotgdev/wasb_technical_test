@@ -6,6 +6,6 @@ COPY ./frontend/ui/package*.json /app/
 
 WORKDIR /app
 
-RUN npm install --silent
+RUN npm install
 
 CMD while true ; do npm start --prefix /app/ ; sleep 1 ; done
