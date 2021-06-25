@@ -138,10 +138,7 @@ class Command(BaseCommand):
             user, ucreated = get_user_model().objects.get_or_create(
                 username=name, is_superuser=False, is_staff=False)
 
-            profile, pcreated = Profile.objects.get_or_create(user=user, years_of_experience=0)
-            for attr, value in team_member.items():
-                setattr(profile, attr, value)
-            profile.save()
+            profile, pcreated = Profile.objects.get_or_create(user=user, **team_member)
 
             for skill in skills:
                 Skill.objects.get_or_create(profile=profile, **skill)
