@@ -27,6 +27,8 @@ Docker will build the containers according to specifications, and the `up` comma
 
 Two apps will launch. An API, written with [django](https://www.djangoproject.com/) and the [django rest framework](https://www.django-rest-framework.org/) on `http://localhost:8000` and a UI, written with [React](https://reactjs.org/) on `http://localhost:3000`
 
+Note: on occasion, the UI container does not load correctly, and throws a traceback of "react-scripts: not found". To fix this issue, run docker-compose exec ui bash" and "npm install"
+
 
 ---
 
