@@ -9,6 +9,7 @@ TEAM = [
         "job_title": "CTO",
         "years_of_experience": 100,
         "introduction": "runs things.",
+        'is_superuser': True,
         "hobbies": [
             {
                 "name": "Mountain biking",
@@ -31,6 +32,7 @@ TEAM = [
         "job_title": "Head of UX/UI",
         "years_of_experience": 40,
         "introduction": "designs things.",
+        'is_superuser': False,
         "hobbies": [
             {
                 "name": "Dog walking",
@@ -57,6 +59,7 @@ TEAM = [
         "job_title": "Head of Engineering",
         "years_of_experience": 10,
         "introduction": "makes things.",
+        'is_superuser': False,
         "hobbies": [
             {
                 "name": "Making extravagant technical tests",
@@ -73,6 +76,7 @@ TEAM = [
         "job_title": "Head of Data science",
         "years_of_experience": 60,
         "introduction": "explains things.",
+        'is_superuser': False,
         "hobbies": [
             {
                 "name": "Ballet, would you believe",
@@ -99,6 +103,7 @@ TEAM = [
         "job_title": "SVP of Product",
         "years_of_experience": 50,
         "introduction": "demands things.",
+        'is_superuser': False,
         "hobbies": [
             {
                 "name": "Running into famous people",
@@ -119,6 +124,37 @@ TEAM = [
                 "strength": 10,
             }
         ]
+    },
+    {
+        "name": "Dmitriy",
+        "job_title": "Python Developer",
+        "years_of_experience": 3,
+        "introduction": "a machine that turns coffee into code.",
+        'is_superuser': False,
+        "hobbies": [
+            {
+                "name": "Travelling",
+                "strength": 6,
+            },
+            {
+                "name": "Stocks",
+                "strength": 5,
+            }
+        ],
+        "skills": [
+            {
+                "name": "Django",
+                "strength": 9,
+            },
+            {
+                "name": "Docker",
+                "strength": 7,
+            },
+            {
+                "name": "PostgreSQL",
+                "strength": 7,
+            }
+        ]
     }
 ]
 
@@ -134,9 +170,13 @@ class Command(BaseCommand):
             skills = team_member.pop('skills', [])
             hobbies = team_member.pop('hobbies', [])
             name = team_member.pop('name')
+            is_superuser = team_member.pop('is_superuser')
 
             user, ucreated = get_user_model().objects.get_or_create(
-                username=name, is_superuser=False, is_staff=False)
+                username=name, is_staff=False)
+
+            user.is_superuser = is_superuser
+            user.save()
 
             profile, pcreated = Profile.objects.get_or_create(user=user, **team_member)
 
@@ -147,4 +187,3 @@ class Command(BaseCommand):
                 Hobby.objects.get_or_create(profile=profile, **hobby)
 
         self.stdout.write(self.style.SUCCESS('Created Basic User Profiles!'))
-
