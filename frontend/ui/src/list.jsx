@@ -35,6 +35,8 @@ export default function TeamListPage () {
   useEffect(async () => {
     const response = await fetch('http://localhost:8000/team/profile/')
     const team = await response.json();
+    team.sort((a, b) => a.name.localeCompare(b.name))
+
     console.log(team);
     setTeam(team)
   }, [setTeam])
@@ -43,8 +45,8 @@ export default function TeamListPage () {
     <div>
       {
         team.map(
-          (member) => (
-            <TeamMemberListCard member={member} />
+          (member, index) => (
+            <span key={index}>{(index ? <hr/> : '')} <TeamMemberListCard member={member}/></span>
           )
         )
       }

@@ -8,6 +8,9 @@ class Profile(models.Model):
     years_of_experience = models.IntegerField()
     introduction = models.TextField()
 
+    class Meta:
+        ordering = ['user__username']
+
 
 class Skill(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="skills")
