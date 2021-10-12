@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 
 const TeamMemberSummary = ({ member }) => {
@@ -117,6 +117,8 @@ export default function TeamDetailPage (props) {
   const [member, setMember] = useState({});
   const [error, setError] = useState(false);
 
+  let history = useHistory();
+
   useEffect(async () => {
 
     setError(false);
@@ -133,7 +135,7 @@ export default function TeamDetailPage (props) {
   if (!error && member.id) {
     return (
       <div>
-        {/* TODO: add a "back" button */}
+        <button onClick={history.goBack} style={{margin: "30px 0 0 20px", padding: '15px 30px'}}>Back</button>
         <TeamMemberSummary member={member}/>
       </div>
     )
