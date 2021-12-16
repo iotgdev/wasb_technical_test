@@ -26,16 +26,46 @@ class HobbySerializer(serializers.ModelSerializer):
         fields = ('name', 'strength')
 
 
+def get_average_strengths(profile, prop):
+    strengths = []
+
+    for skill in getattr(profile, prop).all():
+        strengths.append(skill.strength)
+
+    return sum(strengths) / len(strengths) if strengths else None
+
+
 class ProfileRetrieveSerializer(ProfileListSerializer):
 
     average_skill_proficiency = serializers.SerializerMethodField()
+    passion = serializers.SerializerMethodField()
+    approx_age = serializers.SerializerMethodField()
+    maximum_passion = serializers.SerializerMethodField()
+
     skills = SkillSerializer(many=True, read_only=True)
     hobbies = HobbySerializer(many=True, read_only=True)
 
     @staticmethod
     def get_average_skill_proficiency(profile):
-        skill_strengths = []
-        for skill in profile.skills.all():
-            skill_strengths.append(skill.strength)
+        return get_average_strengths(profile, 'skills')
 
-        return sum(skill_strengths) / len(skill_strengths)
+    @staticmethod
+    def get_passion(profile):
+        return get_average_strengths(profile, 'hobbies')
+
+    @staticmethod
+    def get_maximum_passion(profile):
+        return max([passion.strength for passion in profile.hobbies.all()])
+
+    @staticmethod
+    def get_approx_age(profile):
+        approx_age = 'probably a responsible adult'
+
+        if profile.years_of_experience > 60:
+            approx_age = 'ancient'
+        elif profile.years_of_experience < 30:
+            approx_age = 'barely out of diapers'
+        elif profile.years_of_experience > 40:
+            approx_age = 'old'
+
+        return approx_age
