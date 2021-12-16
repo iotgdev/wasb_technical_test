@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import {useEffect, useState, useMemo} from 'react';
+import {Link, useLocation } from 'react-router-dom';
 
 
-const TeamMemberListCard = ({ member }) => {
+const TeamMemberListCard = ({member}) => {
   console.log(member)
   return (
     <div style={{padding: "20px"}}>
+      <hr/>
       <p>
         <span>Name: <b>{member.name}</b></span>
       </p>
@@ -18,25 +19,48 @@ const TeamMemberListCard = ({ member }) => {
         <small>
           <span>Info: <b>{member.introduction}</b></span>
         </small>
+      </p><p>
+        <small>
+          <span>Info: <b>{member.introduction}</b></span>
+        </small>
       </p>
       <small>
         <Link to={`/team/${member.id}/`}>More Info...</Link>
       </small>
       <br/>
+      <hr/>
     </div>
   )
 }
 
 
-export default function TeamListPage () {
+export default function TeamListPage() {
 
   const [team, setTeam] = useState([]);
+  const useQuery = () => {
+  const { search } = useLocation();
+
+  return useMemo(() => new URLSearchParams(search), [search]);
+}
+
+  const query = useQuery();
+
 
   useEffect(async () => {
-    const response = await fetch('http://localhost:8000/team/profile/')
-    const team = await response.json();
-    console.log(team);
-    setTeam(team)
+    try {
+      const response = await fetch(`http://localhost:8000/team/profile/${query.get('maximum_passion') !== null ? '?maximum_passion='+query.get("maximum_passion") : ''}`).then((response) => response.json()).then((value) => setTeam(value.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1;
+        }
+        if (a.name < b.name) {
+          return -1;
+        }
+        return 0;
+      })))
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
   }, [setTeam])
 
   return (
@@ -44,7 +68,7 @@ export default function TeamListPage () {
       {
         team.map(
           (member) => (
-            <TeamMemberListCard member={member} />
+            <TeamMemberListCard key={member.id} member={member}/>
           )
         )
       }

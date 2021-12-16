@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.management import BaseCommand
 
-from team.models import Profile, Skill, Hobby
+from backend.api.team.models import Profile, Skill, Hobby
 
 TEAM = [
     {
@@ -12,11 +12,11 @@ TEAM = [
         "hobbies": [
             {
                 "name": "Mountain biking",
-                "strength": 8,
+                "strength": 10,
             },
             {
                 "name": "Sitting in the sun, drinking wine and pretending to work",
-                "strength": 6
+                "strength": 10
             }
         ],
         "skills": [
@@ -119,6 +119,28 @@ TEAM = [
                 "strength": 10,
             }
         ]
+    },
+    {
+        "name": "Rostik",
+        "job_title": "Python Back-end dev",
+        "years_of_experience": 2,
+        "introduction": "update things.",
+        "hobbies": [
+            {
+                "name": "Riding a motorcycle",
+                "strength": 10,
+            },
+            {
+                "name": "E-sports",
+                "strength": 8
+            }
+        ],
+        "skills": [
+            {
+                "name": "Python",
+                "strength": 8,
+            }
+        ]
     }
 ]
 
@@ -147,4 +169,3 @@ class Command(BaseCommand):
                 Hobby.objects.get_or_create(profile=profile, **hobby)
 
         self.stdout.write(self.style.SUCCESS('Created Basic User Profiles!'))
-
