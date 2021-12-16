@@ -7,7 +7,7 @@ A Technical Assessment for Software Technician Interviewees - TASTI.
 Introduction
 ---
 
-Awesome! You're a programmer. Finally! We need a few of those. We have a team directory project, TASTI, that isn't working and we need your help to fix it. You'll only need to know basic python and javascript to get started, although we'll be working with a few frameworks that form part of our other projects.
+Awesome! You're a programmer. Finally! We need a few of those. We have a team directory project, TASTI, that isn't working, and we need your help to fix it. You'll only need to know basic python and javascript to get started, although we'll be working with a few frameworks that form part of our other projects.
 
 Instructions will appear in bold.
 
@@ -15,7 +15,7 @@ Instructions will appear in bold.
 
 Task 1 - run the application
 ---
-Take a look at the project so far: **Fork the github repo. Clone your fork onto your local machine. Familiarise yourself with the code. Create a new git branch (identified by your name) to work on locally.**
+Take a look at the project so far: **Fork the GitHub repo. Clone your fork onto your local machine. Familiarise yourself with the code. Create a new git branch (identified by your name) to work on locally.**
 
 Once you've got the code downloaded, you'll need to run it. This application uses [docker](https://www.docker.com/get-started).
 **Download the "Docker Desktop" version appropriate for your system.**
@@ -27,7 +27,7 @@ Docker will build the containers according to specifications, and the `up` comma
 
 Two apps will launch. An API, written with [django](https://www.djangoproject.com/) and the [django rest framework](https://www.django-rest-framework.org/) on `http://localhost:8000` and a UI, written with [React](https://reactjs.org/) on `http://localhost:3000`
 
-Note: on occasion, the UI container does not load correctly, and throws a traceback of "react-scripts: not found". To fix this issue, run docker-compose exec ui bash" and "npm install"
+Note: on occasion, the UI container does not load correctly, and throws a traceback of "react-scripts: not found". To fix this issue, run "docker-compose exec wasb_ui bash" and "npm install"
 
 
 ---
@@ -35,7 +35,7 @@ Note: on occasion, the UI container does not load correctly, and throws a traceb
 Task 2 - Creating Data
 ---
 
-The database for the API is empty. Worse still, none of the table schemas have been uploaded. To upload the schemas, migrate the databases and add the database fixures, you can use the django management command.
+The database for the API is empty. Worse still, none of the table schemas have been uploaded. To upload the schemas, migrate the databases and add the database fixtures, you can use the django management command.
 
 **In a new terminal window, run `docker-compose exec wasb_api manage.py migrate`**
 
@@ -48,7 +48,7 @@ These commands migrate a local database and add the existing team directory to i
 Task 3 - Improving the UI
 ---
 
-The UI (`http://localhost:3000`) is finally showing some data. We havent styled our application yet, but we can see what we need to see.
+The UI (`http://localhost:3000`) is finally showing some data. We haven't styled our application yet, but we can see what we need to see.
 The root page of the UI lists our team, but, it's not very clear.
 
 **Add a horizontal rule (`<hr>` HTML tag) between the data for each team member. Do not include a line break before the first, or after the last team member.**
@@ -82,7 +82,7 @@ The `TeamDetailPage` could do with a bit more information. We have a lot of crud
 
 **Add all other properties from the API response to the page in an "about" section.**
 
-**Fix all of the errors in the console**
+**Fix all the errors in the console**
 
 ---
 

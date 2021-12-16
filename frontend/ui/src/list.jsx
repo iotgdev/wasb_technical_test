@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 
 const TeamMemberListCard = ({ member }) => {
-  console.log(member)
   return (
     <div style={{padding: "20px"}}>
       <p>
@@ -32,22 +31,26 @@ export default function TeamListPage () {
 
   const [team, setTeam] = useState([]);
 
-  useEffect(async () => {
-    const response = await fetch('http://localhost:8000/team/profile/')
-    const team = await response.json();
-    console.log(team);
-    setTeam(team)
-  }, [setTeam])
+  useEffect( () => {
+    async function fetchData() {
+      const response = await fetch("http://localhost:8000/team/profile/");
+      const team = await response.json();
+      setTeam(team);
+    }
+
+    fetchData();
+  }, [setTeam]);
 
   return (
     <div>
-      {
-        team.map(
-          (member) => (
+      {team
+        .sort((a, b) => (a.name > b.name ? 1 : -1))
+        .map((member, index) => (
+          <React.Fragment key={`team-member-${index}`}>
+            {index !== 0 && <hr />}
             <TeamMemberListCard member={member} />
-          )
-        )
-      }
+          </React.Fragment>
+        ))}
     </div>
-  )
+  );
 }

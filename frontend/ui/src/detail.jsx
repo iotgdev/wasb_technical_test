@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import {useEffect, useState} from 'react';
 
 
 const TeamMemberSummary = ({ member }) => {
@@ -23,6 +22,19 @@ const TeamMemberSummary = ({ member }) => {
       <h3>Skills</h3>
       <TeamMemberSkills skills={member.skills} />
       <br />
+      <h3>Passionate</h3>
+      <TeamMemberPassion passion={member.passion} />
+      <br />
+      <h3>Approximate age</h3>
+      <TeamMemberApproxAge approxAge={member.approx_age} />
+      <br />
+      <h3>About</h3>
+      <TeamMemberAbout
+        proficiency={member.average_skill_proficiency}
+        exp={member.years_of_experience}
+        maxPassion={member.maximum_passion}
+      />
+      <br />
     </div>
   )
 }
@@ -31,20 +43,22 @@ const TeamMemberSummary = ({ member }) => {
 const TeamMemberHobbies = ({ hobbies }) => {
   return (
     <table>
-      <tr>
-        <th>Name</th>
-        <th>Proficiency</th>
-      </tr>
-      {
-        hobbies.map(
-          (hobby) => (
-            <tr>
-              <td>{hobby.name}</td>
-              <td>{hobby.strength}</td>
-            </tr>
+      <tbody>
+        <tr>
+          <th>Name</th>
+          <th>Proficiency</th>
+        </tr>
+        {
+          hobbies.map(
+            (hobby, index) => (
+              <tr key={`hobby-item-${index}`}>
+                <td>{hobby.name}</td>
+                <td>{hobby.strength}</td>
+              </tr>
+            )
           )
-        )
-      }
+        }
+      </tbody>
     </table>
   );
 }
@@ -52,24 +66,72 @@ const TeamMemberHobbies = ({ hobbies }) => {
 const TeamMemberSkills = ({ skills }) => {
   return (
     <table>
-      <tr>
-        <th>Name</th>
-        <th>Proficiency</th>
-      </tr>
+      <tbody>
+        <tr>
+          <th>Name</th>
+          <th>Proficiency</th>
+        </tr>
       {
         skills.map(
-          (skill) => (
-            <tr>
+          (skill, index) => (
+            <tr key={`skill-item-${index}`}>
               <td>{skill.name}</td>
               <td>{skill.strength}</td>
             </tr>
           )
         )
       }
+      </tbody>
     </table>
   );
 }
 
+const TeamMemberPassion = ({ passion }) => {
+  return (
+    <table>
+      <tbody>
+        <tr>
+          <td>Passion Score</td>
+          <td>{passion}</td>
+        </tr>
+      </tbody>
+    </table>
+  );
+}
+
+const TeamMemberApproxAge = ({ approxAge }) => {
+  return (
+    <table>
+      <tbody>
+        <tr>
+          <td>Approximate age</td>
+          <td>{approxAge}</td>
+        </tr>
+      </tbody>
+    </table>
+  );
+}
+
+const TeamMemberAbout = ({ proficiency, exp, maxPassion }) => {
+  return (
+    <table>
+      <tbody>
+        <tr>
+          <td>Proficiency</td>
+          <td>{proficiency}</td>
+        </tr>
+        <tr>
+          <td>Experience</td>
+          <td>{exp}</td>
+        </tr>
+        <tr>
+          <td>Max Passion</td>
+          <td>{maxPassion}</td>
+        </tr>
+      </tbody>
+    </table>
+  );
+}
 
 export default function TeamDetailPage (props) {
 
@@ -78,17 +140,21 @@ export default function TeamDetailPage (props) {
   const [member, setMember] = useState({});
   const [error, setError] = useState(false);
 
-  useEffect(async () => {
-
+  useEffect( () => {
     setError(false);
-    const response = await fetch(`http://localhost:8000/team/profile/${teamMemberId}/`);
-    if (response.status !== 200) {
+
+    async function fetchData() {
+      const response = await fetch(`http://localhost:8000/team/profile/${teamMemberId}/`);
+      if (response.status !== 200) {
         setError(true);
         return;
+      }
+      const member = await response.json();
+      setMember(member)
     }
-    const member = await response.json();
-    setMember(member)
-  }, [setMember])
+
+    fetchData();
+  }, [teamMemberId])
 
   if (!error && member.id) {
     return (
@@ -98,5 +164,9 @@ export default function TeamDetailPage (props) {
       </div>
     )
   }
-  return null;
+  else {
+    return (
+      <div style={{padding: "20px"}}>Oops! An error occurred..</div>
+    )
+  }
 }

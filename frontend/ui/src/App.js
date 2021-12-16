@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import TeamListPage from './list.jsx';
 import TeamDetailPage from './detail.jsx';
 
