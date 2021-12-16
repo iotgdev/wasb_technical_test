@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from team.models import Profile
-from team.serializers import ProfileRetrieveSerializer, ProfileListSerializer
+from .models import Profile
+from .serializers import ProfileRetrieveSerializer, ProfileListSerializer, MaximumPassionSerializer
 
 
 class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
@@ -12,3 +12,13 @@ class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
         if self.action == 'list':
             return ProfileListSerializer
         return ProfileRetrieveSerializer
+
+    def get_queryset(self, **kwargs):
+        qs = super().get_queryset(**kwargs)
+        maximum_passion_query = self.request.GET.get('maximum_passion')
+        if maximum_passion_query:
+            maximum_passion = MaximumPassionSerializer(maximum_passion_query).data['maximum_passion']
+            if maximum_passion > 0:
+                return qs.filter(hobbies__strength=int(maximum_passion))
+        else:
+            return qs

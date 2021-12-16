@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from team.models import Skill, Hobby, Profile
+from .models import Skill, Hobby, Profile
 
 
 class SkillInline(admin.TabularInline):
@@ -12,7 +12,6 @@ class HobbyInline(admin.TabularInline):
 
 
 class ProfileAdmin(admin.ModelAdmin):
-
     inlines = (SkillInline, HobbyInline)
 
 
